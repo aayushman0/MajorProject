@@ -1,37 +1,11 @@
 import cv2
 import predict
+import segmentation
 
-background = None
 
-def run_avg(img, avgWeight):
-    global background
-    
-    if background is None:
-        # Initialize the background
-        background = img.copy().astype("float")
-        return
-    
-    # Compute the Weighted Average
-    cv2.accumulateWeighted(img, background, avgWeight)
+def mouseAction(predicted_vals):
+    pass
 
-def segment(img, threshold=25):
-    global background
-    
-    # Calculate absolute difference between background and current frame
-    diff = cv2.absdiff(background.astype("uint8"), img)
-    
-    # Threshold the difference to obtain foreground
-    thresholded = cv2.threshold(diff, threshold, 255, cv2.THRESH_BINARY)[1]
-    
-    # Obatin the contours in the thresholded image
-    (cnts, _) = cv2.findContours(thresholded.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    
-    # Return None when no contours detected
-    if len(cnts) == 0:
-        return
-    else:
-        segmented = max(cnts, key=cv2.contourArea)
-        return thresholded, segmented
 
 if __name__ == "__main__":
     # Initialize Running Average Weight
@@ -72,10 +46,10 @@ if __name__ == "__main__":
         
         if (frame_no < 30):
             # Use the first 30 frames to set the background
-            run_avg(gray, avgWeight)
+            segmentation.run_avg(gray, avgWeight)
         else:
             # Segment the hand region
-            hand = segment(gray)
+            hand = segmentation.segment(gray)
             
             # Check for segmentaion
             if hand is not None:
@@ -84,9 +58,13 @@ if __name__ == "__main__":
                 
                 # Show the segmented image
                 cv2.drawContours(clone, [segmented + (R, T)], -1, (0, 0, 255))
+                max_x, max_y = segmentation.findTop(segmented)
+                cv2.circle(clone, (max_x + R, max_y + T), 3, (255, 0, 0), -1)
                 cv2.imshow("Thresholded Image", thresholded)
                 predicted_vals = predict.predict(thresholded)
                 cv2.putText(clone, predicted_vals,(10, 450), cv2.FONT_HERSHEY_COMPLEX, 1, (125, 125, 125), 2, cv2.LINE_AA)
+                
+                mouseAction(predicted_vals)
             
          # Represent the Region of Interest
         cv2.rectangle(clone, (L, T), (R, B), (0, 255, 0), 2)

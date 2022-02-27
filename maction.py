@@ -1,32 +1,35 @@
 from numpy import absolute
-import pyautogui as pg
+import mouse
 
 prev_x = 0
 prev_y = 0
-md = 0
-pg.FAILSAFE = False
+clicked = 0
+frame = 0
 
 def mouseAction(pList, max_x, max_y):
-    global md
-    if(pList[0][0] >= 0.85 and md == 0):
-        pg.mouseDown()
-        md = 1
-    elif(pList[0][0] >= 0.85 and md == 1):
-        mouseMove(max_x, max_y)
+    global clicked, frame
+    if(frame <= 120):
+        frame = frame + 1
     else:
-        md = 0
-        pg.mouseUp()
     
-    if(pList[0][1] >= 0.85):
-        mouseMove(max_x, max_y)
-    elif(pList[0][2] >= 0.85):
-        pg.rightClick()
-    elif(pList[0][3] >= 0.85):
-        pass
-    elif(pList[0][4] >= 0.85):
-        pass
-    elif(pList[0][5] >= 0.85):
-        pass
+        if(clicked == 0):
+            clicked = 1
+            if(pList[0][0] >= 0.95):
+                mouse.click('left')
+            elif(pList[0][2] >= 0.95):
+                mouse.click('right')
+            else:
+                clicked = 0
+    
+        if(pList[0][1] >= 0.85):
+            mouseMove(max_x, max_y)
+            clicked = 0
+        elif(pList[0][3] >= 0.85):
+            pass
+        elif(pList[0][4] >= 0.85):
+            pass
+        elif(pList[0][5] >= 0.85):
+            pass
         
 
 def mouseMove(max_x, max_y):
@@ -43,8 +46,7 @@ def mouseMove(max_x, max_y):
         move_x = x_neg * (x_diff ** 2) / 2
         move_y = y_neg * (y_diff ** 2) / 2
         
-        pg.move(move_x, move_y)
+        mouse.move(move_x, move_y, absolute = False)
     
     prev_x = max_x
     prev_y = max_y
-    

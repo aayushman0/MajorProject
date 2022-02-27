@@ -32,13 +32,24 @@ def segment(img, threshold=25):
         segmented = max(cnts, key=cv2.contourArea)
         return thresholded, segmented
 
-def findTop(segmented):
+def findEdge(segmented):
+    # Initializing the variables
     max_x = 0
-    max_y = 0
-    
-    for x, y in segmented[0]:
-        if (x > max_x):
+    max_y = 300
+    left_x = 300
+    right_x = 0
+    for cor in segmented:
+        # Taking each coordinates of the contour and comparing them
+        x, y = cor[0]
+        # To find the max point
+        if (y < max_y):
             max_x = x
             max_y = y
-    
-    return max_x, max_y
+        # To find the leftmost region
+        if(x < left_x):
+            left_x = x
+        # To find the rightmost region
+        if(x > right_x):
+            right_x = x
+        
+    return max_x, max_y, left_x, right_x

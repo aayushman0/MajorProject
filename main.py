@@ -1,10 +1,7 @@
 import cv2
 import predict
 import segmentation
-
-
-def mouseAction(predicted_vals):
-    pass
+import maction
 
 
 if __name__ == "__main__":
@@ -61,10 +58,10 @@ if __name__ == "__main__":
                 max_x, max_y = segmentation.findTop(segmented)
                 cv2.circle(clone, (max_x + R, max_y + T), 3, (255, 0, 0), -1)
                 cv2.imshow("Thresholded Image", thresholded)
-                predicted_vals = predict.predict(thresholded)
+                predicted_vals, pList = predict.predict(thresholded)
                 cv2.putText(clone, predicted_vals,(10, 450), cv2.FONT_HERSHEY_COMPLEX, 1, (125, 125, 125), 2, cv2.LINE_AA)
                 
-                mouseAction(predicted_vals)
+                maction.mouseAction(pList, max_x, max_y)
             
          # Represent the Region of Interest
         cv2.rectangle(clone, (L, T), (R, B), (0, 255, 0), 2)

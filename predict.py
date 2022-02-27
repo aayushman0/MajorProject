@@ -14,5 +14,5 @@ def predict(frame):
     for n in prediction:
         n = np.round(n * 100)
         vals = vals + str(n) + ' '
-    return vals
+    return vals, prediction
     

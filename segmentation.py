@@ -35,8 +35,8 @@ def segment(img, threshold=25):
 def findEdge(segmented):
     # Initializing the variables
     max_x = 0
-    max_y = 300
-    left_x = 300
+    max_y = 350
+    left_x = 390
     right_x = 0
     for cor in segmented:
         # Taking each coordinates of the contour and comparing them

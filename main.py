@@ -3,7 +3,6 @@ import predict
 import segmentation
 import maction
 
-
 if __name__ == "__main__":
     # Initialize Running Average Weight
     avgWeight = 0.5
@@ -11,10 +10,10 @@ if __name__ == "__main__":
     cam = cv2.VideoCapture(0)
     
     # Co ordinates for Region of Interest
-    T = 10
-    B = 250
-    R = 350
-    L = 650
+    T = 2
+    B = 350
+    R = 300
+    L = 690
     
     # Initialize no. of frames
     frame_no = 0

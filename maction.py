@@ -16,14 +16,14 @@ def mouseAction(pList, max_x, max_y):
             buttonPress('left', max_x, max_y)    
         elif(pList[0][2] >= 0.95):
             mouse.right_click()
+        elif(pList[0][4] >= 0.97):
+            buttonPress('middle', max_x, max_y)    
         elif(pressed == 1):
             buttonRelease()
             
         if(pList[0][1] >= 0.85):
             mouseMove(max_x, max_y)
         elif(pList[0][3] >= 0.85):
-            pass
-        elif(pList[0][4] >= 0.85):
             pass
         elif(pList[0][5] >= 0.85):
             scroll(max_x, max_y)

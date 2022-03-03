@@ -61,7 +61,7 @@ if __name__ == "__main__":
                 
                 # Cropping a square from thresholded image with the required Contiur 
                 max_y_copy = max_y
-                diff1 = 300 - max_y
+                diff1 = B - T - max_y
                 diff2 = right_x - left_x
                 
                 if(diff1 > diff2):
@@ -78,14 +78,12 @@ if __name__ == "__main__":
                     left_x = 1
                 
                 # Passing the cropped thresholded image into the neural network
-                predicted_vals, pList = predict.predict(thresholded[max_y:300, left_x:right_x])
+                predicted_vals, pList = predict.predict(thresholded[max_y:(B - T), left_x:right_x])
                 
                 cv2.putText(clone, predicted_vals,(10, 450), cv2.FONT_HERSHEY_COMPLEX, 1, (125, 125, 125), 2, cv2.LINE_AA)
                 
                 # Visual representation of the thresholded and the cropped region
-                cv2.line(thresholded, (0, max_y), (L-R, max_y), 50)
-                cv2.line(thresholded, (right_x, 0), (right_x, B-T), 50)
-                cv2.line(thresholded, (left_x, 0), (left_x, B-T), 50)
+                cv2.rectangle(thresholded,(left_x, max_y), (right_x, B-T), 100)
                 cv2.imshow("Thresholded Image", thresholded)
                 
                 # Mouse Action based on the predicted outcome

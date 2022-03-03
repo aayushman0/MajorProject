@@ -64,7 +64,7 @@ def mouseMove(max_x, max_y):
 
 def scroll(max_x, max_y):
     global prev_x, prev_y
-    diff = max_y - prev_y
+    diff = (max_y - prev_y) / 5
     mouse.wheel(diff)
     prev_x = max_x
     prev_y = max_y

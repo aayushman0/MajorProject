@@ -65,8 +65,8 @@ if __name__ == "__main__":
                 diff2 = right_x - left_x
                 
                 if(diff1 > diff2):
-                    right_x = right_x + int((diff1 - diff2) / 2)
-                    left_x = left_x - int((diff1 - diff2) / 2)
+                    right_x = right_x + (diff1 - diff2)
+                    left_x = left_x - (diff1 - diff2)
                 else:
                     max_y = max_y - (diff2 - diff1)
                 

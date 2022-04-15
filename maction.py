@@ -7,9 +7,11 @@ pressed = 0
 frame = 0
 
 def mouseAction(pList, max_x, max_y):
-    global frame, pressed
+    global frame, pressed, prev_x, prev_y
     if(frame <= 20):
         frame = frame + 1
+        prev_x = max_x
+        prev_y = max_y
     else:
         if(pList[0][0] >= 0.97):
             buttonPress('left', max_x, max_y)    

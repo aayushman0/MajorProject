@@ -18,6 +18,17 @@ if __name__ == "__main__":
     # Initialize no. of frames
     frame_no = 0
     
+    #Mouse Actions
+    actions = [
+        'None',
+        'Left Mouse',
+        'Cursor Move',
+        'Right Mouse',
+        'Middle Mouse',
+        'None',
+        'Scroll'
+    ]
+    
     while(True):
         # Get the current frame
         (_, frame) = cam.read()
@@ -56,19 +67,20 @@ if __name__ == "__main__":
                 cv2.drawContours(clone, [segmented + (R, T)], -1, (0, 0, 255))
                 
                 # Find the max point as well as the leftmost and rightmost region of the contour
-                max_x, max_y, left_x, right_x = segmentation.findEdge(segmented)
+                max_x, max_y, left_x, right_x, min_y = segmentation.findEdge(segmented)
                 cv2.circle(clone, (max_x + R, max_y + T), 3, (255, 0, 0), -1)
                 
                 # Cropping a square from thresholded image with the required Contiur 
                 max_y_copy = max_y
-                diff1 = B - T - max_y
+                min_y = min_y + 70
+                diff1 = min_y - max_y
                 diff2 = right_x - left_x
                 
-                if(diff1 > diff2):
-                    right_x = right_x + (diff1 - diff2)
-                    left_x = left_x - (diff1 - diff2)
+                if(diff1 > diff2): 
+                    right_x = right_x + int((diff1 - diff2) / 2)
+                    left_x = left_x - int((diff1 - diff2) / 2)
                 else:
-                    max_y = max_y - (diff2 - diff1)
+                    min_y = min_y + (diff2 - diff1)
                 
                 if(max_y <= 0):
                     max_y = 1
@@ -78,12 +90,12 @@ if __name__ == "__main__":
                     left_x = 1
                 
                 # Passing the cropped thresholded image into the neural network
-                predicted_vals, pList = predict.predict(thresholded[max_y:(B - T), left_x:right_x])
+                predicted_val, pList = predict.predict(thresholded[max_y:min_y, left_x:right_x])
                 
-                cv2.putText(clone, predicted_vals,(10, 450), cv2.FONT_HERSHEY_COMPLEX, 1, (125, 125, 125), 2, cv2.LINE_AA)
+                cv2.putText(clone, "Action: " + actions[predicted_val],(10, 450), cv2.FONT_HERSHEY_COMPLEX, 1, (10, 10, 10), 2, cv2.LINE_AA)
                 
                 # Visual representation of the thresholded and the cropped region
-                cv2.rectangle(thresholded,(left_x, max_y), (right_x, B-T), 100)
+                cv2.rectangle(thresholded,(left_x, max_y), (right_x, min_y), 100)
                 cv2.imshow("Thresholded Image", thresholded)
                 
                 # Mouse Action based on the predicted outcome

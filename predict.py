@@ -11,10 +11,12 @@ def predict(frame):
     frame = frame.astype('float32') / 255
     prediction = model.predict(frame)
     
-    vals = ''
-    for n in prediction:
-        n = np.round(n * 100)
-        vals = vals + str(n) + ' '
+    val = 0
+    i = 1
+    for n in prediction[0]:
+        if n > 0.8:
+            val = i
+        i = i + 1
     
-    return vals, prediction
+    return val, prediction
     

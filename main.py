@@ -25,7 +25,7 @@ if __name__ == "__main__":
         'Left Mouse',
         'Cursor Move',
         'Right Mouse',
-        'Middle Mouse',
+        'Middle Click',
         'None',
         'Scroll'
     ]

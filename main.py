@@ -22,10 +22,10 @@ if __name__ == "__main__":
     #Mouse Actions
     actions = [
         'None',
-        'Left Mouse',
+        'Left Mouse Button',
         'Cursor Move',
-        'Right Mouse',
-        'Middle Click',
+        'Right Mouse Button',
+        'Middle Mouse Button',
         'None',
         'Scroll'
     ]

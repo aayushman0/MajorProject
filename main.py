@@ -2,6 +2,7 @@ import cv2
 import predict
 import segmentation
 import maction
+import mouse
 
 if __name__ == "__main__":
     # Initialize Running Average Weight
@@ -92,7 +93,10 @@ if __name__ == "__main__":
                 # Passing the cropped thresholded image into the neural network
                 predicted_val, pList = predict.predict(thresholded[max_y:min_y, left_x:right_x])
                 
-                cv2.putText(clone, "Action: " + actions[predicted_val],(10, 450), cv2.FONT_HERSHEY_COMPLEX, 1, (10, 10, 10), 2, cv2.LINE_AA)
+                cv2.putText(clone, "Action: " + actions[predicted_val],(10, 480), cv2.FONT_HERSHEY_COMPLEX, 1, (10, 10, 10), 2, cv2.LINE_AA)
+                cv2.putText(clone, "Cursor Position: " + str(mouse.get_position()),(10, 440), cv2.FONT_HERSHEY_COMPLEX, 1, (10, 10, 10), 2, cv2.LINE_AA)
+                cv2.putText(clone, "Action: " + actions[predicted_val],(10, 480), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
+                cv2.putText(clone, "Cursor Position: " + str(mouse.get_position()),(10, 440), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA)
                 
                 # Visual representation of the thresholded and the cropped region
                 cv2.rectangle(thresholded,(left_x, max_y), (right_x, min_y), 100)
